@@ -258,7 +258,14 @@ class OrbitDB {
       onChannelCreated
     )
 
-    if (getStore(address)) { getStore(address).events.emit('peer', peer) }
+    if (getStore(address)) {
+      getStore(address).events.emit('peer', peer)
+      logger.debug(`Emitted peer event for ${address}`)
+    } else {
+      logger.warning(`Unable to find ${address} in stores`)
+      logger.warning(`Store contents:`)
+      logger.warning(this.stores)
+    }
   }
 
   // Callback when database was closed
