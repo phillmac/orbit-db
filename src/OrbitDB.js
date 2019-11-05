@@ -17,6 +17,7 @@ const exchangeHeads = require('./exchange-heads')
 const { isDefined, io } = require('./utils')
 const Storage = require('orbit-db-storage-adapter')
 const migrations = require('./migrations')
+const EventEmitter = require('events').EventEmitter
 
 const Logger = require('logplease')
 const logger = Logger.create('orbit-db')
@@ -47,6 +48,7 @@ class OrbitDB {
       : null
     this.directory = options.directory || './orbitdb'
     this.storage = options.storage
+    this.events = new EventEmitter()
     this._directConnections = {}
 
     this.caches = {}
@@ -172,6 +174,9 @@ class OrbitDB {
       await db.close()
       delete this.stores[db.address.toString()]
     }
+
+    //Remove event listeners
+    this.events.removeAllListeners('open')
 
     const caches = Object.keys(this.caches)
     for (const directory of caches) {
@@ -422,7 +427,10 @@ class OrbitDB {
       } else {
         logger.warn(`Not a valid OrbitDB address '${address}', creating the database`)
         options.overwrite = options.overwrite ? options.overwrite : true
-        return this.create(address, options.type, options)
+        return this.create(address, options.type, options).then((db) => {
+          this.events.emit('open', db.address.toString())
+          return db
+        })
       }
     }
 
@@ -458,7 +466,10 @@ class OrbitDB {
 
     // Open the the database
     options = Object.assign({}, options, { accessControllerAddress: manifest.accessController, meta: manifest.meta })
-    return this._createStore(manifest.type, dbAddress, options)
+    return this._createStore(manifest.type, dbAddress, options).then((db) => {
+      this.events.emit('open', db.address.toString())
+      return db
+    })
   }
 
   // Save the database locally
