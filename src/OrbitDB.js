@@ -175,10 +175,9 @@ class OrbitDB {
       delete this.stores[db.address.toString()]
     }
 
-    //Remove event listeners
+    // Remove event listeners
     this.events.removeAllListeners('open')
     this.events.removeAllListeners('load')
-
 
     const caches = Object.keys(this.caches)
     for (const directory of caches) {
@@ -229,6 +228,7 @@ class OrbitDB {
     const opts = Object.assign({ replicate: true }, options, {
       accessController: accessController,
       cache: options.cache,
+      eventEmitter: this.events,
       onClose: this._onClose.bind(this),
       onDrop: this._onDrop.bind(this),
       onLoad: this._onLoad.bind(this)
@@ -333,7 +333,6 @@ class OrbitDB {
     const dir = db && db.options.directory ? db.options.directory : this.directory
     await this._requestCache(address, dir, db._cache)
     this.stores[address] = db
-    this.events.emit('load', address)
   }
 
   async _determineAddress (name, type, options = {}) {
@@ -430,12 +429,7 @@ class OrbitDB {
       } else {
         logger.warn(`Not a valid OrbitDB address '${address}', creating the database`)
         options.overwrite = options.overwrite ? options.overwrite : true
-        const events = this.events
-        return this.create(address, options.type, options).then((db) => {
-          db.events.on('ready', (address, heads) => events.emit('ready', address, heads))
-          events.emit('open', db.address.toString())
-          return db
-        })
+        return this.create(address, options.type, options)
       }
     }
 
@@ -471,12 +465,7 @@ class OrbitDB {
 
     // Open the the database
     options = Object.assign({}, options, { accessControllerAddress: manifest.accessController, meta: manifest.meta })
-    const events = this.events
-    return this._createStore(manifest.type, dbAddress, options).then((db) => {
-      db.events.on('ready', (address, heads) => events.emit('ready', address, heads))
-      events.emit('open', db.address.toString())
-      return db
-    })
+    return this._createStore(manifest.type, dbAddress, options)
   }
 
   // Save the database locally
