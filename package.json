@@ -31,7 +31,7 @@
     "orbit-db-kvstore": "~1.7.0",
     "orbit-db-pubsub": "~0.5.5",
     "orbit-db-storage-adapter": "^0.5.3",
-    "orbit-db-store": "github:orbitdb/orbit-db-store#feat/global-events"
+    "orbit-db-store": "github:phillmac/orbit-db-store"
   },
   "devDependencies": {
     "adm-zip": "^0.4.13",
