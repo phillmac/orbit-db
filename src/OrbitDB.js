@@ -178,6 +178,8 @@ class OrbitDB {
     // Remove event listeners
     this.events.removeAllListeners('open')
     this.events.removeAllListeners('load')
+    this.events.removeAllListeners('ready')
+
 
     const caches = Object.keys(this.caches)
     for (const directory of caches) {
