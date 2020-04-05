@@ -433,7 +433,7 @@ class OrbitDB {
         options.overwrite = options.overwrite ? options.overwrite : true
         const events = this.events
         return this.create(address, options.type, options).then((db) => {
-          db.events.on('orbitdb.ready', (address, heads) => events.emit('ready', address, heads))
+          db.events.on('ready', (address, heads) => events.emit('orbitdb.ready', address, heads))
           events.emit('orbitdb.open', db.address.toString())
           return db
         })
