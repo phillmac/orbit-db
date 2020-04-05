@@ -474,8 +474,8 @@ class OrbitDB {
     options = Object.assign({}, options, { accessControllerAddress: manifest.accessController, meta: manifest.meta })
     const events = this.events
     return this._createStore(manifest.type, dbAddress, options).then((db) => {
-      db.events.on('ready', (address, heads) => events.emit('ready', address, heads))
-      events.emit('open', db.address.toString())
+      db.events.on('ready', (address, heads) => events.emit('orbitdb.ready', address, heads))
+      events.emit('orbitdb.open', db.address.toString())
       return db
     })
   }
