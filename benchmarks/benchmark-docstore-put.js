@@ -13,7 +13,7 @@ let lastTenSeconds = 0
 
 // Main loop
 const queryLoop = async (db) => {
-  await db.put({_id:totalQueries, data: Math.random().toString(36).substring(5)}, { pin: false })
+  await db.put({_id:totalQueries, data: Math.random().toString(36).substring(5)})
   totalQueries ++
   lastTenSeconds ++
   queriesPerSecond ++
