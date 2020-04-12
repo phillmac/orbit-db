@@ -14,7 +14,7 @@ let lastTenSeconds = 0
 
 const items = []
 
-for(let i=0; i<100000;i++){
+for(let i=0; i<10000;i++){
   console.log(`Generating set ${i}`)
   items[i] = []
   for(let i2=0; i2<1000;i2++){
