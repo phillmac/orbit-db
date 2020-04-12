@@ -22,7 +22,7 @@
     "orbit-db-access-controllers": "~0.2.2",
     "orbit-db-cache": "github:phillmac/orbit-db-cache",
     "orbit-db-counterstore": "~1.7.0",
-    "orbit-db-docstore": "github:phillmac/orbit-db-doctore",
+    "orbit-db-docstore": "github:phillmac/orbit-db-docstore",
     "orbit-db-eventstore": "~1.7.0",
     "orbit-db-feedstore": "~1.7.0",
     "orbit-db-identity-provider": "~0.3.0",
@@ -30,7 +30,7 @@
     "orbit-db-keystore": "~0.3.0",
     "orbit-db-kvstore": "~1.7.0",
     "orbit-db-pubsub": "~0.5.5",
-    "orbit-db-storage-adapter": "^0.5.3",
+    "orbit-db-storage-adapter": "~0.5.3",
     "orbit-db-store": "github:phillmac/orbit-db-store"
   },
   "devDependencies": {
