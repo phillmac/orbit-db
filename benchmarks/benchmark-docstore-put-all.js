@@ -17,7 +17,7 @@ const items = []
 for(let i=0; i<10000;i++){
   console.log(`Generating set ${i}`)
   items[i] = []
-  for(let i2=1; i2<1000;i2++){
+  for(let i2=1; i2<=1000;i2++){
     items[i][i2] = {'_id':i*1000 + i2, data: Math.random().toString(36).substring(5)}
   }
 }
