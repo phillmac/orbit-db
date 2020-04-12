@@ -12,7 +12,7 @@ let queriesPerSecond = 0
 let lastTenSeconds = 0
 
 
-items = []
+const items = []
 
 for(let i=0; i<100000;i++){
   console.log(`Generating set ${i}`)
