@@ -63,12 +63,12 @@ ipfs.on('ready', async () => {
       setInterval(() => {
         seconds ++
         if(seconds % 10 === 0) {
-          console.log(`--> Average of ${lastTenSeconds/10} q/s in the last 10 seconds`)
+          console.log(`--> Average of ${lastTenSeconds/10 * 1000} docs/s in the last 10 seconds`)
           if(lastTenSeconds === 0)
             throw new Error("Problems!")
           lastTenSeconds = 0
         }
-        console.log(`${queriesPerSecond} queries per second, ${totalQueries} queries in ${seconds} seconds (Oplog: ${db._oplog.length})`)
+        console.log(`${queriesPerSecond * 1000} docs per second, ${totalQueries *1000} docs in ${seconds} seconds (Oplog: ${db._oplog.length})`)
         queriesPerSecond = 0
       }, 1000)
       // Start the main loop
