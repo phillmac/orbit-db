@@ -28,7 +28,7 @@
     "orbit-db-identity-provider": "~0.3.0",
     "orbit-db-io": "~0.2.0",
     "orbit-db-keystore": "~0.3.0",
-    "orbit-db-kvstore": "~1.7.0",
+    "orbit-db-kvstore": "github:phillmac/orbit-db-kvstore",
     "orbit-db-pubsub": "~0.5.5",
     "orbit-db-storage-adapter": "~0.5.3",
     "orbit-db-store": "github:phillmac/orbit-db-store"
