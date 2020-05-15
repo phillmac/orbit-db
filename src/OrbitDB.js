@@ -294,9 +294,9 @@ class OrbitDB {
       getStore(address).events.emit('peer', peer)
       logger.debug(`Emitted peer event for ${address}`)
     } else {
-      logger.warning(`Unable to find ${address} in stores`)
-      logger.warning(`Store contents:`)
-      logger.warning(this.stores)
+      logger.warn(`Unable to find ${address} in stores`)
+      logger.warn(`Store contents:`)
+      logger.warn(this.stores)
     }
   }
 
