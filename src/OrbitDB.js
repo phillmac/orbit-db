@@ -84,7 +84,7 @@ class OrbitDB {
       options.offline = false
     }
 
-    if (options.offline && !options.id ) {
+    if (options.offline && !options.id) {
       throw new Error('Offline mode requires passing an `id` in the options')
     }
 
@@ -242,9 +242,13 @@ class OrbitDB {
     // ID of the store is the address as a string
     const addr = address.toString()
     this.stores[addr] = store
-    
-    //Pin mamnifest hash
-    await this._ipfs.pin.add(address.root)
+
+    // Pin mamnifest hash
+    try {
+      await this._ipfs.pin.add(address.root)
+    } catch (e) {
+      logger.error(e)
+    }
 
     // Subscribe to pubsub to get updates from peers,
     // this is what hooks us into the message propagation layer
@@ -298,7 +302,7 @@ class OrbitDB {
       logger.debug(`Emitted peer event for ${address}`)
     } else {
       logger.warn(`Unable to find ${address} in stores`)
-      logger.warn(`Store contents:`)
+      logger.warn('Store contents:')
       logger.warn(this.stores)
     }
   }
