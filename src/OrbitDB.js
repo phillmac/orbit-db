@@ -242,6 +242,9 @@ class OrbitDB {
     // ID of the store is the address as a string
     const addr = address.toString()
     this.stores[addr] = store
+    
+    //Pin mamnifest hash
+    await this._ipfs.pin.add(address.root)
 
     // Subscribe to pubsub to get updates from peers,
     // this is what hooks us into the message propagation layer
