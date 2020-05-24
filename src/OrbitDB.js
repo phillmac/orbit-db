@@ -246,6 +246,7 @@ class OrbitDB {
     // Pin mamnifest hash
     try {
       await this._ipfs.pin.add(address.root)
+      logger.debug(`Pinned address.root`)
     } catch (e) {
       logger.error(e)
     }
