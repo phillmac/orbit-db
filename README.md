@@ -27,7 +27,7 @@ Status: **in active development**
 
 ***NOTE!*** *OrbitDB is **alpha-stage** software. It means OrbitDB hasn't been security audited and programming APIs and data formats can still change. We encourage you to [reach out to the maintainers](https://gitter.im/orbitdb/Lobby) if you plan to use OrbitDB in mission critical systems.*
 
-This is the Javascript implementation and it works both in **Browsers** and **Node.js** with support for Linux and OS X (Windows is not supported yet). The minimum required version of Node.js is now 8.6.0 due to the usage of `...` spread syntax. LTS versions (even numbered versions 8, 10, etc) are preferred.
+This is the Javascript implementation and it works both in **Browsers** and **Node.js** with support for Linux and OS X and Windows. The minimum required version of Node.js is now 8.6.0 due to the usage of `...` spread syntax. LTS versions (even numbered versions 8, 10, etc) are preferred.
 
 To use with older versions of Node.js, we provide an ES5-compatible build through the npm package, located in `dist/es5/` when installed through npm.
 
@@ -160,13 +160,16 @@ initIPFSInstance().then(ipfs => {
 ```
 
 ### Module with IPFS Daemon
-Alternatively, you can use [ipfs-api](https://npmjs.org/package/ipfs-api) to use `orbit-db` with a locally running IPFS daemon. Use this method if you're using `orbitd-db` to develop **backend** or **desktop** applications, eg. with [Electron](https://electron.atom.io).
+
+Alternatively, you can use [ipfs-http-client](https://www.npmjs.com/package/ipfs-http-client) to use `orbit-db` with a locally running IPFS daemon. Use this method if you're using `orbitd-db` to develop **backend** or **desktop** applications, eg. with [Electron](https://electron.atom.io).
 
 Install dependencies:
 
 ```
-npm install orbit-db ipfs-http-client
+npm install orbit-db ipfs-http-client@41.0.1
 ```
+
+**Note:** need to use v41.0.1 until support for modern JS API is added in [orbit-db#767](https://github.com/orbitdb/orbit-db/pull/767).
 
 ```javascript
 const IpfsClient = require('ipfs-http-client')
