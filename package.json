@@ -20,7 +20,7 @@
     "logplease": "^1.2.14",
     "multihashes": "^0.4.12",
     "orbit-db-access-controllers": "~0.2.2",
-    "orbit-db-cache": "~0.3.0",
+    "orbit-db-cache": "github:phillmac/orbit-db-cache",
     "orbit-db-counterstore": "~1.9.0",
     "orbit-db-docstore": "github:phillmac/orbit-db-docstore",
     "orbit-db-eventstore": "~1.9.0",
