@@ -50,7 +50,7 @@ class OrbitDB {
     this.storage = options.storage
     this.events = new EventEmitter()
     this._directConnections = {}
-    this._pinTimeout = options.pinTimeout || (30 *1000)
+    this._pinTimeout = options.pinTimeout || (5 *1000)
 
     this.caches = {}
     this.caches[this.directory] = { cache: options.cache, handlers: new Set() }
