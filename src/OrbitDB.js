@@ -50,6 +50,7 @@ class OrbitDB {
     this.storage = options.storage
     this.events = new EventEmitter()
     this._directConnections = {}
+    this._pinTimeout = options.pinTimeout || (30 *1000)
 
     this.caches = {}
     this.caches[this.directory] = { cache: options.cache, handlers: new Set() }
@@ -245,7 +246,8 @@ class OrbitDB {
 
     // Pin mamnifest hash
     try {
-      await this._ipfs.pin.add(address.root)
+      logger.debug(`Attempting to pin ${address.root}`)
+      await this._ipfs.pin.add(address.root, {timeout: this._pinTimeout})
       logger.debug(`Pinned ${address.root}`)
     } catch (e) {
       logger.error(e)
