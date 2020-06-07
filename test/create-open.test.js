@@ -378,6 +378,33 @@ Object.keys(testAPIs).forEach(API => {
         assert.equal(res[0].payload.value, 'hello1')
         assert.equal(res[1].payload.value, 'hello2')
       })
+
+      it('emits open event when opening database', async () => {
+          let dbAddres
+          const handleEvent = (addr => dbAddres = addr)
+          orbitdb.events.once('open',  handleEvent)
+          db = await orbitdb.open('open_event_test', { create: true, type: 'feed' })
+          assert.equal(dbAddres, db.address.toString())
+      })
+
+      it('emits load event when opening database', async () => {
+          let dbAddres
+          const handleEvent = (addr => dbAddres = addr)
+          orbitdb.events.once('load',  handleEvent)
+          db = await orbitdb.open('load_event_test', { create: true, type: 'feed', relayEvents:['load'] })
+          await db.add('test')
+          await db.load()
+          assert.equal(dbAddres, db.address.toString())
+      })
+
+      it('relays ready event when opening database', async () => {
+          let dbAddres
+          const handleEvent = (addr => dbAddres = addr)
+          orbitdb.events.once('ready',  handleEvent)
+          db = await orbitdb.open('ready_event_test', { create: true, type: 'feed', relayEvents:['ready'] })
+          await db.load()
+          assert.equal(dbAddres, db.address.toString())
+      })
     })
 
     describe("Close", function () {

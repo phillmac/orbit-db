@@ -79,7 +79,8 @@
     "build:dist": "webpack --config conf/webpack.config.js --sort-modules-by size && mkdirp examples/browser/lib && cpy dist/orbitdb.min.js examples/browser/lib",
     "build:debug": "webpack --config conf/webpack.debug.config.js --sort-modules-by size && mkdirp examples/browser/lib && cpy dist/orbitdb.js examples/browser/lib && cpy dist/orbitdb.js.map examples/browser/lib",
     "build:docs/toc": "markdown-toc --no-first1 -i README.md && markdown-toc --no-first1 -i API.md && markdown-toc --no-first1 -i GUIDE.md && markdown-toc --no-first1 -i CHANGELOG.md && markdown-toc --no-first1 -i FAQ.md ",
-    "build:es5": "babel src --out-dir ./dist/es5/ --presets babel-preset-env --plugins babel-plugin-transform-runtime"
+    "build:es5": "babel src --out-dir ./dist/es5/ --presets babel-preset-env --plugins babel-plugin-transform-runtime",
+    "update:store": "npm update orbit-db-store && git add package-lock.json && git commit -m \"Update orbit-db-store version\" && git push"
   },
   "go-ipfs": {
     "version": "v0.5.1"

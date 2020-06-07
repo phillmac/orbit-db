@@ -17,7 +17,7 @@ const exchangeHeads = require('./exchange-heads')
 const { isDefined, io } = require('./utils')
 const Storage = require('orbit-db-storage-adapter')
 const migrations = require('./migrations')
-const EventEmitter = require('events').EventEmitter
+const { EventEmitter } = require('events')
 
 const Logger = require('logplease')
 const logger = Logger.create('orbit-db')
@@ -56,6 +56,8 @@ class OrbitDB {
     this.caches[this.directory] = { cache: options.cache, handlers: new Set() }
     this.keystore = options.keystore
     this.stores = {}
+    this._relayEvents = options.relayEvents
+    this.events = new EventEmitter()
 
     // AccessControllers module can be passed in to enable
     // testing with orbit-db-access-controller
@@ -123,6 +125,10 @@ class OrbitDB {
       options.cache = new Cache(cacheStorage)
     }
 
+    if (!options.relayEvents) {
+      options.relayEvents = []
+    }
+
     const finalOptions = Object.assign({}, options, { peerId: id })
     return new OrbitDB(ipfs, options.identity, finalOptions)
   }
@@ -176,11 +182,6 @@ class OrbitDB {
       delete this.stores[db.address.toString()]
     }
 
-    // Remove event listeners
-    this.events.removeAllListeners('open')
-    this.events.removeAllListeners('load')
-    this.events.removeAllListeners('ready')
-
     const caches = Object.keys(this.caches)
     for (const directory of caches) {
       await this.caches[directory].cache.close()
@@ -203,6 +204,11 @@ class OrbitDB {
 
     // Remove all databases from the state
     this.stores = {}
+
+    // Remove all event listeners
+    for (const event in this.events._events) {
+      this.events.removeAllListeners(event)
+    }
   }
 
   // Alias for disconnect()
@@ -244,7 +250,9 @@ class OrbitDB {
     const addr = address.toString()
     this.stores[addr] = store
 
-    // Pin mamnifest hash
+    this.events.emit('open', addr)
+
+    // Pin manifest hash
     try {
       logger.debug(`Attempting to pin ${address.root}`)
       await this._ipfs.pin.add(address.root, {timeout: this._pinTimeout})
@@ -253,11 +261,15 @@ class OrbitDB {
       logger.error(e)
     }
 
+    const relayEvents = options.relayEvents || this._relayEvents
+    for (const eventType of relayEvents) {
+      store.events.on(eventType, (...args) => this.events.emit(eventType, addr, ...args))
+    }
+
     // Subscribe to pubsub to get updates from peers,
     // this is what hooks us into the message propagation layer
     // and the p2p network
     if (opts.replicate && this._pubsub) { await this._pubsub.subscribe(addr, this._onMessage.bind(this), this._onPeerConnected.bind(this)) }
-
     return store
   }
 
