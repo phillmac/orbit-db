@@ -10,7 +10,8 @@ COPY src/ ./src
 COPY conf/ ./conf
 COPY docker/scripts/ipfs.sh /scripts/ipfs.sh
 
-RUN chown -R node:node package.json src conf
+RUN chown -R node:node /orbit-db
+
 USER node
 
 RUN npm install babel-cli webpack \
