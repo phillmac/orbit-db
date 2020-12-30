@@ -8,7 +8,7 @@ WORKDIR /orbit-db
 COPY package.json ./
 COPY src/ ./src
 COPY conf/ ./conf
-COPY scripts/ipfs.sh /scripts/ipfs.sh
+COPY docker/scripts/ipfs.sh /scripts/ipfs.sh
 
 RUN chown -R node:node package.json examples src conf
 USER node
