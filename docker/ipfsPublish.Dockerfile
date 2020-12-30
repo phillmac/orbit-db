@@ -10,7 +10,7 @@ COPY src/ ./src
 COPY conf/ ./conf
 COPY docker/scripts/ipfs.sh /scripts/ipfs.sh
 
-RUN chown -R node:node /orbit-db
+RUN chown -R node:node /orbit-db && chmod a+x /scripts/ipfs.sh
 
 USER node
 
