@@ -16,6 +16,6 @@ USER node
 
 RUN npm install babel-cli webpack \
  && npm install \
- && npm build:dist
+ && npm run build:dist
 
 CMD ["/scripts/ipfs.sh"]
