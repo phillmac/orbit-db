@@ -4,7 +4,7 @@ deps:
 	npm install
 
 test: deps
-	npm run test:all
+	npm run test:all -- --exit
 	npx validate-maintainers orbit-db --match --ci
 
 build: test
@@ -24,7 +24,6 @@ clean:
 
 clean-dependencies: clean
 	rm -f package-lock.json
-	rm -rf examples/browser/lib
 
 rebuild: | clean-dependencies build
 
