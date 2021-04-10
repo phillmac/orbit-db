@@ -24,7 +24,7 @@
     "logplease": "^1.2.14",
     "multihashes": "~3.0.1",
     "orbit-db-access-controllers": "^0.3.0",
-    "orbit-db-cache": "~0.3.0",
+    "orbit-db-cache": "github:orbitdb/orbit-db-cache",
     "orbit-db-counterstore": "~1.12.0",
     "orbit-db-docstore": "github:phillmac/orbit-db-docstore",
     "orbit-db-eventstore": "~1.12.0",
