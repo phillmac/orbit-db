@@ -48,7 +48,6 @@ class OrbitDB {
       : null
     this.directory = options.directory || './orbitdb'
     this.storage = options.storage
-    this.events = new EventEmitter()
     this._directConnections = {}
     this._pinTimeout = options.pinTimeout || (5 * 1000)
 
