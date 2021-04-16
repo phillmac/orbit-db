@@ -283,8 +283,11 @@ class OrbitDB {
   // Callback for receiving a message from the network
   async _onMessage (address, heads, peer) {
     if (this._enablePing && heads === 'ping') {
+      logger.debug('Ping from', peer)
       if (this._directConnections[peer]) {
         this._directConnections[peer].send(JSON.stringify({ address: address, heads: 'pong' }))
+      } else {
+        logger.debug('Unable to respond to ping from', peer)
       }
       return
     }
