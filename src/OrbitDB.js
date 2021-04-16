@@ -44,7 +44,7 @@ class OrbitDB {
     this._pubsub = !options.offline
       ? options.broker
         ? new options.broker(this._ipfs) // eslint-disable-line
-        : new Pubsub(this._ipfs, this.id)
+          : new Pubsub(this._ipfs, this.id)
       : null
     this.directory = options.directory || './orbitdb'
     this.storage = options.storage
@@ -57,6 +57,7 @@ class OrbitDB {
     this.keystore = options.keystore
     this.stores = {}
     this._relayEvents = options.relayEvents
+    this._enablePing = options.enablePing
     this.events = new EventEmitter()
 
     // AccessControllers module can be passed in to enable
@@ -281,6 +282,12 @@ class OrbitDB {
 
   // Callback for receiving a message from the network
   async _onMessage (address, heads, peer) {
+    if (this._enablePing && heads === 'ping') {
+      if (this._directConnections[peer]) {
+        this._directConnections[peer].send(JSON.stringify({ address: address, heads: 'pong' }))
+      }
+      return
+    }
     const store = this.stores[address]
     try {
       logger.debug(`Received ${heads.length} heads for '${address}':\n`, JSON.stringify(heads.map(e => e.hash), null, 2))
